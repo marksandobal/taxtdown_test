@@ -24,7 +24,7 @@ Add new migration
 ```bash
 npx migrate create migration_name
 ```
-example: 
+example:
 
 ```bash
 npx migrate create addUsersTable
