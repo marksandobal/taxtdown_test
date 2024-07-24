@@ -4,6 +4,7 @@ import { DeepMocked, createMock } from '@golevelup/ts-jest';
 import { UserEmail } from '../../../lib/User/domain/UserEmail';
 import { UserId } from '../../../lib/User/domain/UserId';
 import { User } from '../../../lib/User/domain/User';
+import { UserWithAvailableCredit } from '../../../lib/User/domain/UserWithAvailableCredit';
 
 describe('ExpressUserController', () => {
   let expressUserControllerMock: DeepMocked<ExpressUserController>;
@@ -19,6 +20,60 @@ describe('ExpressUserController', () => {
 
   beforeEach(() => {
     expressUserControllerMock = createMock<ExpressUserController>();
+  });
+
+  describe('getAllWithAvailableCredits', () => {
+    it('should return array of users', async () => {
+      const userWithAvailableCredit = new UserWithAvailableCredit(
+        new User(
+         new UserId(1),
+         'John',
+         'Doe',
+         new UserEmail('john.doe@example.com'),
+         null,
+         null,
+         null
+        ),
+        1,
+        1,
+        'Credito de verano',
+        1000,
+        100
+       );
+
+      const req = createRequest({
+        method: 'GET'
+      });
+
+      const res = createResponse();
+      const next = jest.fn();
+      const responseObject = {
+        id: userWithAvailableCredit.user.id,
+        name: userWithAvailableCredit.user.name,
+        lastName: userWithAvailableCredit.user.lastName,
+        email: userWithAvailableCredit.user.email,
+        credit: {
+            id: userWithAvailableCredit.creditId,
+            credit: userWithAvailableCredit.credit,
+            amount: userWithAvailableCredit.amount,
+            preAprovedAmount: userWithAvailableCredit.preAprovedAmount,
+            availableCreditId: userWithAvailableCredit.availableCreditId
+        }
+    }
+      expressUserControllerMock.getAllWithAvailableCredits.mockResolvedValue(res.json([responseObject]));
+
+      await expressUserControllerMock.getAllWithAvailableCredits(req, res, next);
+      const response = res._getJSONData()
+
+      expect(res.statusCode).toBe(200);
+      expect(response[0].id).toEqual(userWithAvailableCredit.user.id);
+      expect(response[0].name).toEqual(userWithAvailableCredit.user.name);
+      expect(response[0].lastName).toEqual(userWithAvailableCredit.user.lastName);
+      expect(response[0].email).toEqual(userWithAvailableCredit.user.email);
+      expect(response[0].credit.id).toEqual(userWithAvailableCredit.creditId);
+      expect(response[0].credit.amount).toEqual(userWithAvailableCredit.amount);
+      expect(response[0].credit.preAprovedAmount).toEqual(userWithAvailableCredit.preAprovedAmount);
+    });
   });
 
   describe('getAll', () => {

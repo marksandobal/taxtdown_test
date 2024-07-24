@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { Router } from "express";
 import validateRequest from "../../Shared/infrastructure/ValidateRequest";
 import { ExpressUserController } from "./ExpressUserController";
@@ -7,6 +7,14 @@ import passport from "../../auth/infrastructure/PassportUse";
 const controller = new ExpressUserController();
 
 const userRouter = Router();
+
+userRouter.get("/users/available-credits",
+  [
+    query('orderDirection').isIn(['ASC', 'DESC']).optional()
+  ],
+  validateRequest,
+  passport.authenticate('jwt', { session: false }),
+  controller.getAllWithAvailableCredits);
 
 userRouter.get("/users",
   passport.authenticate('jwt', { session: false }),

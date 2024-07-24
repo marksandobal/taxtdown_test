@@ -1,10 +1,10 @@
 import { AvailableCreditRepository } from "../../domain/AvailableCreditRepository";
-import { AvailableCreditWithUserAndCredit } from "../../domain/availableCreditWithUser";
+import { AvailableCredit } from "../../domain/AvailableCredit";
 
 export class AvailableCreditGetAll {
   constructor(private repository: AvailableCreditRepository) {}
 
-  async run(): Promise<AvailableCreditWithUserAndCredit[]> {
+  async run(): Promise<AvailableCredit[]> {
     return this.repository.getAll();
   }
 }

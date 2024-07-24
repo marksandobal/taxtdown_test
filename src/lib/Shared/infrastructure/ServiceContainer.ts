@@ -1,4 +1,5 @@
 import { UserGetAll } from "../../User/application/UserGetAll/UserGetAll";
+import { UserGetAllWithAvailableCredits } from "../../User/application/UserGetAllWithAvailableCredits/UserGetAllWithAvailableCredits";
 import { UserFindById } from "../../User/application/UserFindById/UserFindById";
 import { UserCreate } from "../../User/application/UserCreate/UserCreate";
 import { UserUpdate } from "../../User/application/UserUpdate/UserUpdate";
@@ -20,6 +21,7 @@ const availableCreditRepository = new PostgreAvailableCreditRepository();
 export const ServiceContainer = {
   user: {
     getAll: new UserGetAll(userRepository),
+    getAllWithAvailableCredits: new UserGetAllWithAvailableCredits(userRepository),
     findById: new UserFindById(userRepository),
     findByEmail: new UserFindByEmail(userRepository),
     create: new UserCreate(userRepository),

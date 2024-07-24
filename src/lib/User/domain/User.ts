@@ -34,7 +34,6 @@ export class User {
       name: this.name,
       lastName: this.lastName,
       email: this.email,
-      password: this.password,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };

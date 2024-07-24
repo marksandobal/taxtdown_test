@@ -4,6 +4,17 @@ import { UserNotFoundError } from '../../User/domain/UserNotFoundError';
 import { Encrypt } from '../../Shared/infrastructure/encryp';
 
 export class ExpressUserController {
+  async getAllWithAvailableCredits(req: Request, res: Response, next: NextFunction) {
+    const { orderDirection } = req.query;
+    try {
+      const users = await ServiceContainer.user.getAllWithAvailableCredits.run(orderDirection as string);
+      const formatUsers = users.map(user => user.mapToFormat());
+      return res.json(formatUsers).status(200);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await ServiceContainer.user.getAll.run();
