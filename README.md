@@ -6,6 +6,8 @@ Dependencies:
 - Pg
 - Node-pg-migrate
 - Dotenv
+- jest
+- node-mocks-http
 
 # Install dependencies
 
@@ -31,4 +33,3 @@ Run migration in database
 ```bash
 npx node-pg-migrate up
 ```
-

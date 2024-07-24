@@ -24,6 +24,7 @@ export class UserCreate {
       createdAt,
       updatedAt
     );
+
     return this.repository.create(user);
   }
 }

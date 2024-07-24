@@ -1,11 +1,8 @@
-import { Pool } from "pg";
+import { BaseRepository } from "../../Shared/infrastructure/BaseRepository";
 import { UserRepository } from "../domain/UserRepository";
 import { User } from "../domain/User";
 import { UserEmail } from "../domain/UserEmail";
 import { UserId } from "../domain/UserId";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 type PosgresUser = {
   id: number;
@@ -17,23 +14,15 @@ type PosgresUser = {
   updated_at: Date;
 }
 
-export class PostgresUserRepository implements UserRepository {
-  client: Pool;
-
-  constructor() {
-    this.client = new Pool({
-      connectionString: process.env.DATABASE_URL,
-    });
-  }
-
+export class PostgresUserRepository extends BaseRepository implements UserRepository {
   async getAll(): Promise<User[]> {
-    const query = `SELECT * FROM users`;
+    const query = `SELECT id, name, last_name, email, created_at, updated_at FROM users`;
     const result = await this.client.query<PosgresUser>(query);
     return result.rows.map((row) => this.mapToUser(row));
   }
 
   async findById(id: number): Promise<User | null> {
-    const query = `SELECT * FROM users WHERE id = $1`;
+    const query = `SELECT id, name, last_name, email, created_at, updated_at FROM users WHERE id = $1`;
     const result = await this.client.query<PosgresUser>(query, [id]);
     if (result.rows.length === 0) {
       return null;
@@ -44,7 +33,7 @@ export class PostgresUserRepository implements UserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const query = `SELECT * FROM users WHERE email = $1`;
+    const query = `SELECT id, name, last_name, email, password, created_at, updated_at FROM users WHERE email = $1`;
     const result = await this.client.query<PosgresUser>(query, [email]);
     if (result.rows.length === 0) {
       return null;

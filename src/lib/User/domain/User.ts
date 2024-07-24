@@ -15,17 +15,17 @@ export class User {
     name: string,
     lastName: string,
     email: UserEmail,
-    password: string,
-    createdAt: Date,
-    updatedAt: Date
+    password: string | null,
+    createdAt: Date | null,
+    updatedAt: Date | null
   ) {
     this.id = id.value;
     this.name = name;
     this.lastName = lastName;
     this.email = email.value;
-    this.password = password;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.password = password || '';
+    this.createdAt = createdAt || new Date();
+    this.updatedAt = updatedAt || new Date();
   }
 
   public mapToPrimitive() {

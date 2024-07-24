@@ -1,6 +1,6 @@
+import { Encrypt } from "../../Shared/infrastructure/encryp";
 import { Request, Response, NextFunction } from "express";
 import { ServiceContainer } from "../../Shared/infrastructure/ServiceContainer";
-import { compare } from 'bcrypt';
 import * as jwt from "jsonwebtoken";
 import { UserNotFoundError } from "../../User/domain/UserNotFoundError";
 import * as dotenv from "dotenv";
@@ -12,8 +12,7 @@ export class ExpressAuthController {
     const { email, password } = req.body;
     try {
       const user = await ServiceContainer.user.findByEmail.run(email);
-
-      if (!user || !(await compare(password, user.password))) {
+      if (!user || !(await Encrypt.compare(password, user.password as string))) {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 

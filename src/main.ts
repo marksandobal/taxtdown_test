@@ -3,6 +3,8 @@ import * as passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import ExpressUserRouter from "./lib/User/infrastructure/ExpressUserRouter";
 import ExpressAuthRouter from "./lib/auth/infrastructure/AuthRouter";
+import ExpressCreditRouter from "./lib/Credit/infrastructure/ExpressCreditRouter";
+import ExpressAvailableCreditRouter from "./lib/AvailableCredit/infrastructure/ExpressAvailableCreditRouter";
 
 const app = express();
 
@@ -10,6 +12,8 @@ app.use(express.json());
 app.use(passport.initialize());
 app.use(ExpressAuthRouter);
 app.use(ExpressUserRouter);
+app.use(ExpressCreditRouter);
+app.use(ExpressAvailableCreditRouter);
 
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof Error) {

@@ -39,11 +39,9 @@ export class ExpressUserController {
       updatedAt: string
     };
 
-    const id = 0;
-
     try {
       const passwordHash = await Encrypt.hash(password);
-      const user = await ServiceContainer.user.create.run(id, name, lastName, email, passwordHash, new Date(createdAt), new Date(updatedAt));
+      const user = await ServiceContainer.user.create.run(0, name, lastName, email, passwordHash, new Date(createdAt), new Date(updatedAt));
 
       return res.json(user).status(201);
     } catch (error) {

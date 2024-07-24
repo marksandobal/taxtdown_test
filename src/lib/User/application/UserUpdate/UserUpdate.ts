@@ -24,10 +24,10 @@ export class UserUpdate {
       password,
       createdAt,
       updatedAt);
+
     const userExist = await this.repository.findById(user.id);
-    if (!userExist) {
-      throw new UserNotFoundError("User not found");
-    }
+    if (!userExist) throw new UserNotFoundError("User not found");
+
     return this.repository.update(user);
   }
 }

@@ -15,11 +15,15 @@ userRouter.get("/users/:id",
   passport.authenticate('jwt', { session: false }),
   controller.getById);
 
-userRouter.post("/users", [body('name').isString().notEmpty()
-, body('lastName').isString().notEmpty()
-, body('email').isEmail().notEmpty()
-, body('password').isString().notEmpty()], validateRequest,
-controller.create);
+userRouter.post("/users",
+  [
+    body('name').isString().notEmpty(),
+    body('lastName').isString().notEmpty(),
+    body('email').isEmail().notEmpty(),
+    body('password').isString().notEmpty()
+  ],
+  validateRequest,
+  controller.create);
 
 userRouter.put("/users/:id",
   passport.authenticate('jwt', { session: false }),
