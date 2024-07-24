@@ -8,6 +8,7 @@ class BaseRepository {
     constructor() {
         this.client = new pg_1.Pool({
             connectionString: process.env.DATABASE_URL,
+            ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
         });
     }
 }
