@@ -19,7 +19,7 @@ npm install
 
 # Migration
 
-Add new migration
+### Add new migration
 
 ```bash
 npx migrate create migration_name
@@ -30,16 +30,22 @@ example:
 npx migrate create addUsersTable
 ```
 
-Run migration in database
+### Run migration in database
 
 ```bash
 npx node-pg-migrate up
 ```
 
+### RollBack migration
+
+```bash
+npx node-pg-migrate down
+```
+
 # Run tests
 
 ```bash
-npm run test
+npm run jest
 ```
 
 # Run dev server
@@ -48,44 +54,50 @@ npm run test
 npm run dev
 ```
 
+# Run server
+
+```bash
+npm run start
+```
+
 # Instructions
 
 ## Create a new user
 
 ```bash
-curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john.doe@example.com", "password": "password"}'
+curl -X POST https://taxtdown-test.onrender.com/users -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john.doe@example.com", "password": "password"}'
 ```
 ## Authenticate a user
 
 ```bash
-curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"email": "john.doe@example.com", "password": "password"}'
+curl -X POST https://taxtdown-test.onrender.com/login -H "Content-Type: application/json" -d '{"email": "john.doe@example.com", "password": "password"}'
 ```
 
 ## List credits
 
 ```bash
-curl -X GET http://localhost:3000/credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
+curl -X GET https://taxtdown-test.onrender.com/credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
 ```
 ## List customers available credits
 
 ```bash
-curl -X GET http://localhost:3000/users/available-credits?orderDirection=DESC -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
+curl -X GET https://taxtdown-test.onrender.com/users/available-credits?orderDirection=DESC -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
 ```
 
 ## List available credits
 
 ```bash
-curl -X GET http://localhost:3000/available-credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
+curl -X GET https://taxtdown-test.onrender.com/available-credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>"
 ```
 
 ## Add credit
 
 ```bash
-curl -X POST http://localhost:3000/credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -d '{"amount": 100, "name": "credit name", "active": true}'
+curl -X POST https://taxtdown-test.onrender.com/credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -d '{"amount": 100, "name": "credit name", "active": true}'
 ```
 
 ## Add available credit
 
 ```bash
-curl -X POST http://localhost:3000/available-credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -d '{"amount": 100, "creditId": 1, "userId": 1, "amount": 100}'
+curl -X POST https://taxtdown-test.onrender.com/available-credits -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -d '{"amount": 100, "creditId": 1, "userId": 1, "amount": 100}'
 ```
