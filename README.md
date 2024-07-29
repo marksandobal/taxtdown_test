@@ -59,13 +59,36 @@ npm run dev
 ```bash
 npm run start
 ```
+# Run with Docker
+
+```bash
+docker-compose up
+```
+## Build docker image app - Not necesary
+```bash
+docker build -t taxdown-test-app .
+```
+
+## Run docker image app - Not necesary
+
+**-d** run in background
+**-p 3000:3000** map port 3000 of the container to port 3000 of the host
+
+```bash
+docker run -d -p 3000:3000 image_name
+```
+example:
+
+```bash
+docker run -d -p 3000:3000 taxdown-test-app
+```
 
 # Instructions
 
 ## Create a new user
 
 ```bash
-curl -X POST https://taxtdown-test.onrender.com/users -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john.doe@example.com", "password": "password"}'
+curl -X POST https://taxtdown-test.onrender.com/users -H "Content-Type: application/json" -d '{"name": "John", "lastName": "Doe", "email": "john.doe@example.com", "password": "password"}'
 ```
 ## Authenticate a user
 

@@ -1,0 +1,52 @@
+version: "3.8"
+
+networks:
+  weather-network:
+    driver: bridge
+    external: false
+# In services add all services images that you need for run the app
+services:
+  # LocalStack is a service that allows you to run local AWS services
+  localstack:
+    container_name: "localstack"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=${DEBUG:-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+  # Node backend is the service that runs the backend of the app
+  node_backend:
+    container_name: "node_backend"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    env_file: .env
+    environment:
+      - DATABASE_URL=$DATABASE_URL
+      - JWT_SECRET=$JWT_SECRET
+    ports:
+      - "3000:3000"
+    restart: always
+
+  # Node db is the service that runs the database of the app
+  node_db:
+    container_name: "node_db"
+    image: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - weather-network
+    environment:
+      - POSTGRES_USER=scorpion
+      - POSTGRES_PASSWORD=Michi123
+      - POSTGRES_DB=taxtown_challenge
+    restart: always
+    expose:
+      - 5432
